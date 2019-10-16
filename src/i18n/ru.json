@@ -1,0 +1,46 @@
+{
+  "failed": "Action failed",
+  "success": "Action was successful",
+  "Companies": "Компании",
+  "Documents": "Документы",
+  "Employees": "Сотрудники",
+  "Search": "Поиск",
+  "Find": "Найти",
+  "Mark": "Отметить",
+  "Marked": "Отмечено",
+  "Marked All": "Отмечено всё",
+  "MarkAll": "Все",
+  "MarkRemove": "Снять",
+  "MarkInvert": "Инвертировать",
+  "FilterSelected": "Отбираются",
+  "FilterSelect": "Отобрать",
+  "NavDrawer": {
+    "Title": "СОЙКА",
+    "Disk": "Документы",
+    "Incoming": "Входящие",
+    "Outgoing": "Исходящие",
+    "Tasks": "Задачи",
+    "OnMe": "Задачи на мне",
+    "FromMe": "Задачи от меня",
+    "Unallocated": "Разобрать",
+    "Business": "Бизнес",
+    "Documents": "Документы",
+    "Nomenclature": "Номенклатура",
+    "Marking": "Маркировка",
+    "EmissionIC": "Эмиссия"
+  },
+  "TabsBrowser": {
+    "Tab": {
+      "OrderIC": "Заказы КМ",
+      "EmissionIC": "Эмиссия",
+      "List": "Список",
+      "Answers": "Ответы",
+      "Statistic": "Статистика"
+    }
+  },
+  "ActionButtons": {
+    "AddDocument": "+ Документ",
+    "Import": "Импорт",
+    "Export": "Экспорт"
+  }
+}

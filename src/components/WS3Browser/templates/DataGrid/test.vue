@@ -1,15 +1,20 @@
 <template>
-  <div class="row" v-if="data.row">
+  <div class="row" v-if="row">
     <div class="col">
       <q-input
-        :label="data.row.id"
-        v-model="data.row.value"
+        :label="row.id"
+        v-model="row.value"
         dense
+        autofocus
       >
-        <template v-slot:after>
-          <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-          <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
-        </template>
+        <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel"></q-btn>
+        <q-btn
+          flat
+          dense
+          color="positive"
+          icon="save"
+          @click.stop="set"
+        ></q-btn>
       </q-input>
     </div>
   </div>
@@ -21,7 +26,7 @@ export default {
   props: ['initialValue', 'value', 'emitValue', 'validate', 'set', 'cancel'],
   data: function () {
     return {
-      data: Object.assign({}, this.value)
+      row: Object.assign({}, this.value.row)
     }
   }
   // data: () => ({

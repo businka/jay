@@ -13,7 +13,10 @@
         <q-tr
           :props="props"
         >
-          <q-popup-edit :value="props">
+          <q-popup-edit
+            :value="Object.props"
+            @save="updateRow"
+          >
             <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
               <component
                 v-bind:is="'Test'"
@@ -50,6 +53,9 @@ import BaseTemplateMixin from '../../mixinTemplate/baseForm'
 export default {
   name: 'DataGrid',
   methods: {
+    updateRow (data, data2) {
+      console.log('22')
+    },
     async init () {
       this.initStore()
       await this.initForm()

@@ -19,7 +19,7 @@
           <div
             :key="filter.field"
             class="row no-wrap"
-            v-for="filter in form.filterFields"
+            v-for="filter in params.filterFields"
           >
             <q-input :label="filter.title" v-model="text" class="col-8" dense>
               <template v-slot:append>
@@ -45,14 +45,9 @@
 </style>
 
 <script>
-import BaseTemplateMixin from '../mixin/baseForm'
-import ChildTemplateMixin from '../mixin/formExt'
+import BaseTemplateMixin from '../mixinTemplate/baseForm'
 
 export default {
-  props: {
-    name: name,
-    source: Object
-  },
   data: () => ({
     dialog: false,
     // filter: [],
@@ -66,11 +61,11 @@ export default {
     onEvent () {
     }
   },
-  mixins: [ChildTemplateMixin, BaseTemplateMixin],
+  mixins: [BaseTemplateMixin],
   computed: {
     filter: {
       get: function () {
-        return this.form ? this.form.filter : {}
+        return this.data ? this.data.filter : {}
       }
     },
     icon: function () {

@@ -1,24 +1,16 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div class="q-p0-m0" v-if="form">
+  <div class="q-p0-m0" v-if="data">
     <q-table
       square
       flat
       dense
       hide-header
-      :columns="form.columns"
-      :data="form.rows"
+      :columns="params.columns"
+      :data="data.rows"
     >
       <template v-slot:body="props">
         <q-tr
-          @click.native="dispatchAction(
-          store.parentNamespace,
-          'rowActivate',
-          {
-            key: store.parentKey,
-            store,
-            params: props.row
-            }
-            )"
+          @click.native="emitAction({ name: 'RowActivate', data: {row: props.row }} )"
           :props="props"
         >
           <q-td
@@ -50,7 +42,7 @@
               v-bind:is="col.template||'Default'"
               :col="col"
               :props="props"
-              :data="form.rows"
+              :data="data.rows"
             ></component>
           </q-td>
         </q-tr>
@@ -59,10 +51,7 @@
           :props="props"
           v-for="(item, index) in props.row.child"
           :key="`${props.row.__index}-${index}`"
-          @click.native="dispatchAction(store.parentNamespace, 'rowActivate', {
-          key: store.parentKey,
-          store,
-          params: props.row } )"
+          @click.native="emitAction({ name: 'RowActivate', data: {row: item }} )"
         >
           <q-td key="expand"></q-td>
           <q-td
@@ -82,7 +71,7 @@
               v-bind:is="col.template||'Default'"
               :col="col"
               :props="{ row: item }"
-              :data="form.rows"
+              :data="data.rows"
             ></component>
           </q-td>
         </q-tr>
@@ -91,32 +80,34 @@
   </div>
 </template>
 <script>
-import BaseTemplateMixin from '../../mixin/baseForm'
-import TemplateMixin from '../../mixin/form'
+import BaseTemplateMixin from '../../mixinTemplate/baseForm'
+import TemplateMixin from '../../mixinTemplate/form'
 
 export default {
-  name: 'treeDataGrid',
+  name: 'TreeDataGrid',
   props: {},
   methods: {
     async loadChild (props) {
-      await this.$store.dispatch(`${this.store.namespace}/child`, {
+      await this.$store.dispatch(`${this.namespace}/child`, {
         store: this.store,
-        form: this.form,
+        params: this.params,
+        data: this.data,
         row: props.row
       }, { root: true })
     },
     expand (props) {
       props.expand = !props.expand
-      if (this.form.rows[props.row.__index].child === null) {
+      if (this.data.rows[props.row.__index].child === null) {
         this.loadChild(props)
       }
     },
     async init () {
       this.initStore()
       await this.initForm()
-      await this.$store.dispatch(`${this.store.namespace}/query`, {
+      await this.$store.dispatch(`${this.namespace}/query`, {
         store: this.store,
-        form: this.form
+        params: this.params,
+        data: this.data
       }, { root: true })
     }
   },

@@ -3,7 +3,7 @@
     <SelectAll></SelectAll>
     <q-separator spaced vertical></q-separator>
     <q-btn
-      v-for="item in form.massOperationsBar.items"
+      v-for="item in params.items"
       :key="item.id"
       :icon="item.icon"
       flat
@@ -15,8 +15,8 @@
 <script>
 // import { createNamespacedHelpers } from 'vuex'
 // import { mapActions } from 'vuex'
-import BaseTemplateMixin from '../mixin/baseForm'
-import ChildTemplateMixin from '../mixin/formExt'
+import BaseTemplateMixin from '../mixinTemplate/baseForm'
+import ChildTemplateMixin from '../mixinTemplate/formExt'
 
 export default {
   // name: 'TabBrowser',
@@ -30,15 +30,17 @@ export default {
   computed: {
     massOperationsBarVisible: {
       get: function () {
-        return !!(this.form.massOperationsBar && this.form.massOperationsBar.visible)
+        return this.data.massOperationsBarVisible
       },
       set: function (val) {
-        this.$store.commit(`${this.store.namespace}/massOperationsBarVisible`, { key: this.store.key, value: val })
+        this.$store.commit(`${this.store.namespace}/massOperationsBarVisible`, { uid: this.store.uid, value: val })
       }
     }
   },
-  // methods: {
-
+  methods: {
+    initForm () {
+    }
+  },
   // initForm () {
   //   this.section = this.$route.params.section
   //   this.page = this.$route.params.page

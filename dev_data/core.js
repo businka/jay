@@ -2,19 +2,13 @@ let navData = [
   {
     section: 'Business',
     icon: 'mdi-briefcase-outline',
-    objType: '',
-    objName: 'Business',
-    template: '',
-    objForm: '',
+    title: 'Business',
     path: '',
     props: '',
     child: [
       {
-        path: '/Browser/Catalog/Nomenclature/Form/List',
-        objType: 'Catalog',
-        objName: 'Nomenclature',
-        objForm: 'List',
-        template: 'Browser',
+        path: '/Catalog/Nomenclature/List',
+        title: 'Nomenclature',
         props: ''
       }
     ]
@@ -22,19 +16,13 @@ let navData = [
   {
     section: 'Marking',
     icon: 'mdi-qrcode',
-    objType: '',
-    objName: 'Marking',
-    template: 'TabsBrowser',
-    objForm: 'Index',
+    title: 'Marking',
     path: '/TabsBrowser/Document/Disk/Form/Index',
     props: '',
     child: [
       {
         path: '/TabsBrowser/Document/EmissionIC/Form/Index',
-        objType: 'Document',
-        objName: 'EmissionIC',
-        objForm: 'Index',
-        template: 'TabsBrowser',
+        title: 'EmissionIC',
         props: ''
       }
     ]
@@ -42,27 +30,18 @@ let navData = [
   {
     section: 'Documents',
     icon: 'mdi-file-document-outline',
-    objType: 'Catalog',
-    objName: 'Disk',
-    template: 'TabsBrowser',
-    objForm: 'Index',
+    title: 'Disk',
     path: '/TabsBrowser/Document/Disk/Form/Index',
     props: '',
     child: [
       {
         path: '/Browser/Document/Incoming/Form/List',
-        objType: 'Document',
-        objName: 'Incoming',
-        objForm: 'List',
-        template: 'Browser',
+        title: 'Incoming',
         props: ''
       },
       {
         path: '/TabsBrowser/Document/Outgoing/Form/Index',
-        objType: 'Document',
-        objName: 'Outgoing',
-        objForm: 'Index',
-        template: 'TabsBrowser',
+        title: 'Outgoing',
         props: '',
         default: true
       }
@@ -71,22 +50,15 @@ let navData = [
   {
     section: 'Tasks',
     icon: 'mdi-calendar-check',
-    objType: 'Document',
-    objName: 'OnMe',
-    objForm: 'Index',
-    template: 'TabsBrowser',
+    title: 'OnMe',
     props: '',
     child: [
       {
-        objType: 'Document',
-        objName: 'FromMe',
-        template: '',
+        title: 'FromMe',
         props: ''
       },
       {
-        objType: 'Document',
-        objName: 'Unallocated',
-        template: '',
+        title: 'Unallocated',
         props: ''
       }
     ]
@@ -128,12 +100,26 @@ module.exports = function (app, server) {
       res.status(400).send(`not supported objForm - ${req.params.objType}.${req.params.objName}.${req.params.objForm}`)
       return
     }
-    res.json(data[req.params.objType][req.params.objName].Form[req.params.objForm].templateParam)
+    let _res = Object.assign(data[req.params.objType][req.params.objName].Form[req.params.objForm], req.params)
+    res.json(_res)
   })
   app.get('/api/:objType/:objName/query', function (req, res) {
     res.json(data[req.params.objType][req.params.objName].Data)
   })
   app.get('/api/:objType/:objName', function (req, res) {
-    res.json(data[req.params.objType][req.params.objName].Data[0])
+    let result = {}
+    let id = req.query.id
+    if (!id) {
+      res.json(result)
+      return
+    }
+    let _data = data[req.params.objType][req.params.objName].Data
+    for (let i = 0; i < _data.length; i++) {
+      if (_data[i].id === id) {
+        res.json(_data[i])
+        return
+      }
+    }
+    res.json(result)
   })
 }

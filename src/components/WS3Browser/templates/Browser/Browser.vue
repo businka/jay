@@ -1,67 +1,62 @@
 <template>
-  <div if="form">
+  <div v-if="data">
     <div class="row">
-      <ToolBar v-if="toolBarVisible"
-               :storeParams="{
-                  name: 'toolBar',
-                  parentNamespace: store.namespace,
-                  parentKey: store.key,
-                  parentState: true,
-               }"
-               class="jay-bordered"
-      ></ToolBar>
-    </div>
-    <div class="row">
-      <MassOperationsBar
+      <component
+        v-if="params.components.toolBar"
+        v-bind:is="params.components.toolBar.template"
         :storeParams="{
-                  name: 'massOperationsBar',
-                  parentNamespace: store.namespace,
-                  parentKey: store.key,
-                  parentState: true,
+                  form:storeParams.form,
+                  namespace: store.namespace,
+                  uid: `${storeParams.form}`,
                }"
         class="jay-bordered"
-      ></MassOperationsBar>
+        :params=params.components.toolBar
+      ></component>
     </div>
     <div class="row">
-      <FilterBar
+      <component
+        v-if="params.components.massOperationsBar"
+        v-bind:is="params.components.massOperationsBar.template"
         :storeParams="{
-                  name: 'Content',
-                  parentNamespace: store.namespace,
-                  parentKey: store.key,
-                  parentState: true,
+                  form:storeParams.form,
+                  namespace: store.namespace,
+                  uid: `${storeParams.form}`,
                }"
-      ></FilterBar>
+        class="jay-bordered"
+        :params=params.components.massOperationsBar
+      ></component>
+    </div>
+    <div class="row">
+      <component
+        v-if="params.components.filterBar"
+        v-bind:is="params.components.filterBar.template"
+        :storeParams="{
+                  form:storeParams.form,
+                  namespace: store.namespace,
+                  uid: `${storeParams.form}`,
+               }"
+        :params=params.components.filterBar
+      ></component>
     </div>
     <component
-      v-if="form.dataSource"
-      v-bind:is="form.dataSource.template"
-      name="Content"
+      v-if="params.components.content"
+      v-bind:is="params.components.content.template"
+      @action="emitAction"
+      :modeParams="modeParams"
       :storeParams="{
-                  parentNamespace: store.namespace,
-                  objType: store.objType,
-                  objName: store.objName,
-                  parentKey: store.key,
-                  parentState: false,
+                  form:storeParams.form,
+                  uid: `${storeParams.uid}`,
                }"
-      :params=form.dataSource
+      :params=params.components.content
     >
     </component>
-    <component
-      v-if="form.record"
-      v-bind:is="form.record.template"
-      name="EditForm"
-      :storeParams="{
-                  parentNamespace: store.namespace,
-                  parentKey: store.key,
-                  objType: form.record.objType,
-                  objName: form.record.objName,
-                  objForm: form.record.objForm,
-                  mode: store.mode,
-                  parentState: false,
-               }"
-      :visible="form.record.visible"
+    <RightDrawerFormViewer
+      name="editForm"
+      v-if="data.editForm && data.editForm.visible"
+      :params=data.editForm
+      @action="emitAction"
     >
-    </component>
+    </RightDrawerFormViewer>
   </div>
 </template>
 
@@ -69,55 +64,52 @@
   .jay-bordered {
     border-bottom: 1px solid $grey-3
   }
+
   .jay-toolbar {
     min-height: 36px;
   }
 </style>
 
 <script>
-import BaseTemplateMixin from '../../mixin/baseForm'
-import TemplateMixin from '../../mixin/form'
+import BaseTemplateMixin from '../../mixinTemplate/baseForm'
+import TemplateMixin from '../../mixinTemplate/form'
 
 export default {
   name: 'Browser',
-  props: {
-    name: {
-      type: String,
-      default: 'TabsBrowser'
+  methods: {
+    actionCloseForm (data) {
+      this.$store.commit(`${this.store.namespace}/hideEditForm`, {
+        uid: this.store.uid
+      })
     },
-    namespace: {
-      type: String,
-      default: 'TabsBrowser'
-    }
-  },
-  form: () => ({}),
-  computed: {
-    toolBarVisible: {
-      get: function () {
-        try {
-          return (this.params.toolBar.visible)
-        } catch (e) {
-          try {
-            return (this.form.toolBar.visible)
-          } catch (e) {
-            return false
-          }
-        }
+    actionRowActivate (data) {
+      if (!data.row) {
+        console.error('rowActivate - "row" not found')
+        return
       }
+      this.$store.commit(`${this.store.namespace}/showEditForm`, {
+        uid: this.store.uid,
+        data: {
+          form: data.row.form || this.params.editFormDefault,
+          visible: true,
+          item: data.row
+        }
+      })
     }
   },
-  methods: {},
   mixins: [BaseTemplateMixin, TemplateMixin],
   components: {
     'ToolBar': () => import('../../components/ToolBar'),
     'MassOperationsBar': () => import('../../components/MassOperationsBar'),
     'FilterBar': () => import('../../components/FilterBar'),
     'DataGrid': () => import('../DataGrid/DataGrid'),
-    'TreeDataGrid': () => import('../TreeDataGrid/TreeDataGrid')
+    'TreeDataGrid': () => import('../TreeDataGrid/TreeDataGrid'),
+    'RightDrawerFormViewer': () => import('../../form/RightDrawerFormViewer')
     // 'DocEdi': () => import('../../form/DocEdi/DocEdi')
     // 'DocEmissionIC': () => import('../../form/DocEmissionIC/DocEmissionIC')
   },
   mounted () {
+    console.log(`mounted ${this.$options.name} +  ${this.storeParams.uid}`)
     this.init()
   }
 }

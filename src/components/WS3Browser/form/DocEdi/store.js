@@ -1,7 +1,7 @@
-import { processInDataSource } from '../../datasource/index'
-import { initForm, error } from '../../datasource/actions'
-import { initStoreKey } from '../../datasource/mutations'
-import { get, mode } from '../../datasource/getters'
+import { processInDataSource } from '../../mixinStore/index'
+import { initForm, error } from '../../mixinStore/actions'
+import { initStoreKey } from '../../mixinStore/mutations'
+import { get, mode } from '../../mixinStore/getters'
 
 export default {
   namespaced: true,
@@ -24,7 +24,7 @@ export default {
     error: error,
     read: async (store, payload) => {
       let data = await processInDataSource('read', store, payload)
-      store.commit('read', { key: payload.store.key, form: data })
+      store.commit('read', { key: payload.store.uid, form: data })
     }
   }
 }

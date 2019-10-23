@@ -1,14 +1,14 @@
-import { initForm, error } from '../../datasource/actions'
-import { initStoreKey } from '../../datasource/mutations'
-import { mode, get } from '../../datasource/getters'
+import { initForm, error } from '../../mixinStore/actions'
+import { initStoreKey } from '../../mixinStore/mutations'
+// import { mode, get } from '../../mixinStore/getters'
 
 export default {
   namespaced: true,
   state: {},
-  getters: {
-    get: get,
-    mode: mode
-  },
+  // getters: {
+  //   get: get,
+  //   mode: mode
+  // },
   mutations: {
     initStoreKey: initStoreKey,
     SetActiveTab (state, { storeKey, data }) {
@@ -19,7 +19,7 @@ export default {
     initForm: initForm,
     error: error,
     setActiveTab ({ commit }, { storeKey, data }) {
-      commit('SetActiveTab', { parentKey: storeKey, data })
+      commit('SetActiveTab', { parentUid: storeKey, data })
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <q-toolbar class="jay-toolbar no-padding" v-if="form && form.toolBar">
+  <q-toolbar class="jay-toolbar no-padding" v-if="data && params.items">
     <component
-      v-for="item in form.toolBar.items"
+      v-for="item in params.items"
       :key="item.name"
       :params="item"
       v-bind:is="item.template"
@@ -14,8 +14,8 @@
 <script>
 // import { createNamespacedHelpers } from 'vuex'
 // import { mapActions } from 'vuex'
-import BaseTemplateMixin from '../mixin/baseForm'
-import ChildTemplateMixin from '../mixin/formExt'
+import BaseTemplateMixin from '../mixinTemplate/baseForm'
+// import ChildTemplateMixin from '../mixinStore/formExt'
 
 export default {
   // name: 'TabBrowser',
@@ -29,11 +29,11 @@ export default {
   computed: {
     massOperationsBarVisible: {
       get: function () {
-        return !!(this.form.toolBar && this.form.toolBar.massOperationsBar && this.form.massOperationsBar && this.form.massOperationsBar.visible)
+        return !!(this.data.massOperationsBar && this.data.massOperationsBarVisible)
       },
       set: function (val) {
         this.$store.commit(`${this.store.namespace}/massOperationsBarVisible`, {
-          key: this.store.key,
+          uid: this.store.uid,
           value: val
         })
       }
@@ -43,6 +43,7 @@ export default {
     }
   },
   methods: {
+    initForm () {}
     // ...mapActions('TabsBrowser', [
     //   'load',
     //   'setActiveTab'
@@ -57,7 +58,7 @@ export default {
   mounted () {
     this.init()
   },
-  mixins: [ChildTemplateMixin, BaseTemplateMixin],
+  mixins: [BaseTemplateMixin],
   components: {
     'DefaultAction': () => import('./ActionButtons/DefaultAction'),
     'Action': () => import('./ActionButtons/Action')

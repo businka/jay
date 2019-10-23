@@ -118,3 +118,14 @@
 
 
 Для каждого типа шаблона выделяется хранилище
+
+
+* list / list
+* view / list + view
+    * list-link / list + view + link-list (local)
+* select-list / link + linklist
+* view / list + view + link-list + view
+
+forma uid1
+  browser uid1 + uid2 
+  browser uid1 + uid3

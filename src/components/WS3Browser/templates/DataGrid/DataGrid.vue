@@ -1,21 +1,32 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div class="q-p0-m0" v-if="form">
+  <div class="q-p0-m0" v-if="data">
     <q-table
       square
       flat
       dense
       hide-header
-      :columns="form.columns"
-      :data="form.rows"
+      :columns="params.columns"
+      :data="data.rows"
     >
       <template v-slot:body="props">
+        <!--@click.native="emitAction({ name: 'RowActivate', data: {row: props.row }} )"-->
         <q-tr
-          @click.native="dispatchAction(store.parentNamespace, 'rowActivate', {
-          key: store.parentKey,
-          store,
-          params: props.row } )"
           :props="props"
         >
+          <q-popup-edit :value="props">
+            <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
+              <component
+                v-bind:is="'Test'"
+                :initialValue="initialValue"
+                :value="value"
+                :emitValue="emitValue"
+                :validate="validate"
+                :set="set"
+                :cancel="cancel"
+              >
+              </component>
+            </template>
+          </q-popup-edit>
           <q-td
             v-for="col in props.cols"
             :key="col.name"
@@ -25,7 +36,7 @@
               v-bind:is="col.template||'Default'"
               :col="col"
               :props="props"
-              :data="form.rows"
+              :data="data.rows"
             ></component>
           </q-td>
         </q-tr>
@@ -34,29 +45,29 @@
   </div>
 </template>
 <script>
-import BaseTemplateMixin from '../../mixin/baseForm'
-import TemplateMixin from '../../mixin/form'
+import BaseTemplateMixin from '../../mixinTemplate/baseForm'
 
 export default {
   name: 'DataGrid',
-  props: {},
   methods: {
     async init () {
       this.initStore()
       await this.initForm()
-      await this.$store.dispatch(`${this.store.namespace}/query`, {
+      await this.$store.dispatch(`${this.namespace}/query`, {
         store: this.store,
-        params: this.form
+        params: this.params
       }, { root: true })
     }
   },
-  mixins: [BaseTemplateMixin, TemplateMixin],
+  mixins: [BaseTemplateMixin],
   components: {
     'Default': () => import('../../components/Cells/Default'),
     'DocMemberAttachment': () => import('../../components/Cells/DocMemberAttachment'),
-    'DateTime': () => import('../../components/Cells/DateTime')
+    'DateTime': () => import('../../components/Cells/DateTime'),
+    'Test': () => import('./test')
   },
   mounted () {
+    console.log(`mounted ${this.$options.name} +  ${this.storeParams.uid}`)
     this.init()
   }
 }

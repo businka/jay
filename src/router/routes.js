@@ -1,5 +1,9 @@
 const routes = [
   {
+    path: '/:objType/:objName/:objForm',
+    component: () => import('../components/WS3Browser/form/FormViewer')
+  },
+  {
     path: '/',
     component: () => import('../core/layouts/Index.vue'),
     children: [

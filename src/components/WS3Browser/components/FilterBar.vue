@@ -1,19 +1,29 @@
 <template>
   <q-toolbar class="q-pl-sm jay-toolbar jay-bordered">
-    <SearchForm :name="name" :source="source">
-    </SearchForm>
+    <component
+      v-if="params.components.search"
+      v-bind:is="params.components.search.template"
+      :storeParams="storeParams"
+      :params=params.components.search
+    >
+    </component>
     <q-space></q-space>
-    <FilterButton :name="name" :source="source">
-    </FilterButton>
+    <component
+      v-if="params.components.filter"
+      v-bind:is="params.components.filter.template"
+      :storeParams="storeParams"
+      :params=params.components.filter
+    ></component>
   </q-toolbar>
 </template>
 <script>
 // import { createNamespacedHelpers } from 'vuex'
 // import { mapActions } from 'vuex'
+import BaseTemplateMixin from '../mixinTemplate/baseForm'
 
 export default {
   // name: 'TabBrowser',
-  props: ['name', 'source'],
+  // props: ['name', 'source'],
   // data: () => ({
   //   massOperations: 'List',
   //   section: '-',
@@ -57,6 +67,7 @@ export default {
     //   // this.activeTab = this.form.default
     // }
   },
+  mixins: [BaseTemplateMixin],
   mounted () {
     // this.initForm()
   },

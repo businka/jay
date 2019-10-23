@@ -17,7 +17,7 @@
         class="item-level-1"
         :active="items[current].path===activePath"
       >
-        <q-item-section class="text-level-1 current-text-level-1">{{$t(`NavDrawer.${items[current].objName}`)}}
+        <q-item-section class="text-level-1 current-text-level-1">{{$t(`NavDrawer.${items[current].title}`)}}
         </q-item-section>
       </q-item>
       <q-item
@@ -33,7 +33,7 @@
         exact-active-class="active"
       >
         <q-item-section class="text-level-3"
-        >{{$t(`NavDrawer.${item.objName}`)}}
+        >{{$t(`NavDrawer.${item.title}`)}}
         </q-item-section>
       </q-item>
     </q-list>
@@ -70,7 +70,7 @@
             class="icon-level-1"
           ></q-icon>
         </q-item-section>
-        <q-item-section class="text-level-1">{{$t(`NavDrawer.${item.objName}`)}}</q-item-section>
+        <q-item-section class="text-level-1">{{$t(`NavDrawer.${item.title}`)}}</q-item-section>
         <q-menu
           anchor="top left"
           self="top left"
@@ -97,7 +97,7 @@
               >
               </q-icon>
             </q-item-section>
-              <q-item-section class="text-level-1">{{$t(`NavDrawer.${item.objName}`)}}</q-item-section>
+              <q-item-section class="text-level-1">{{$t(`NavDrawer.${item.title}`)}}</q-item-section>
             </q-item>
             <q-item
               v-for="subitem in item.child"
@@ -108,7 +108,7 @@
               :to="subitem.path"
               class="item-level-3"
             >
-              <q-item-section class="text-level-3">{{$t(`NavDrawer.${subitem.objName}`)}}</q-item-section>
+              <q-item-section class="text-level-3">{{$t(`NavDrawer.${subitem.title}`)}}</q-item-section>
             </q-item>
           </q-list>
         </q-menu>

@@ -16,7 +16,7 @@
             <BrowserToolBar
               :storeParams="{
                 parentNamespace: tab.template,
-                parentKey: tab.storeParams ? tab.storeParams.key: '',
+                parentUid: tab.storeParams ? tab.storeParams.uid: '',
                 parentState: true,
               }"
             ></BrowserToolBar>
@@ -64,8 +64,8 @@
   </div>
 </template>
 <script>
-import BaseTemplateMixin from '../../mixin/baseForm'
-import TemplateMixin from '../../mixin/form'
+import BaseTemplateMixin from '../../mixinTemplate/baseForm'
+import TemplateMixin from '../../mixinTemplate/form'
 
 export default {
   name: 'TabsBrowser',
@@ -85,7 +85,7 @@ export default {
         return this.form ? this.form.active : ''
       },
       set: function (val) {
-        this.$store.commit(`${this.store.namespace}/SetActiveTab`, { key: this.store.key, form: val })
+        this.$store.commit(`${this.store.namespace}/SetActiveTab`, { key: this.store.uid, form: val })
       }
     }
   },

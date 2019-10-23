@@ -3,13 +3,14 @@ module.exports = {
     Nomenclature: {
       Form: {
         List: {
-          parentKey: 'Catalog/Nomenclature/Form/List',
-          name: 'ФормаCписка',
           template: 'Browser',
-          templateParam: {
-            dataSource: {
-              template: 'treeDataGrid',
-              mode: 'remote',
+          mode: {
+            name: 'remote'
+          },
+          components: {
+            content: {
+              template: 'TreeDataGrid',
+              mode: { name: 'remote' },
               objType: 'Catalog',
               objName: 'Nomenclature',
               columns: [
@@ -20,14 +21,18 @@ module.exports = {
                   template: 'Default'
                 }
               ],
-              rows: [],
-              filter: {},
-              searchString: ''
+              inlineActions: {},
+              store: {
+                visible: true,
+                massOperationsBar: true,
+                filters: {},
+                error: {},
+                rows: [],
+                row: {}
+              }
             },
-            mode: 'remote',
-            inlineActions: {},
-            filterField: '',
             toolBar: {
+              template: 'ToolBar',
               visible: true,
               massOperationsBar: true,
               items: [
@@ -45,6 +50,7 @@ module.exports = {
               ]
             },
             massOperationsBar: {
+              template: 'MassOperationsBar',
               selectAll: true,
               visible: false,
               items: [
@@ -58,10 +64,81 @@ module.exports = {
                 }
               ]
             },
-            defaultForm: 'DocEdi',
-            defaultFormTemplate: 'DocEdi',
-            record: {},
+            filterBar: {
+              template: 'FilterBar',
+              components: {
+                search: {
+                  template: 'SearchForm',
+                  filterField: {}
+                },
+                filer: {
+                  template: 'Filter',
+                  filterField: {}
+                }
+              }
+            }
+          },
+          store: {
+            massOperationsBarVisible: false,
+            massOperationsBar: true,
+            editForm: {},
+            filters: {},
             error: {}
+          },
+          editFormDefault: 'Catalog/Nomenclature/Item'
+        },
+        Item: {
+          template: 'NomenclatureItem',
+          mode: {
+            name: 'remote'
+          },
+          components: {
+            props: {
+              template: 'Browser',
+              components: {
+                content: {
+                  template: 'DataGrid',
+                  mode: {
+                    name: 'store',
+                    path: ['item', 'props']
+                  },
+                  objType: 'Catalog',
+                  objName: 'Nomenclature',
+                  columns: [
+                    {
+                      field: 'id',
+                      label: 'name',
+                      align: 'left',
+                      template: 'Default'
+                    },
+                    {
+                      field: 'value',
+                      label: 'value',
+                      align: 'right',
+                      template: 'Default'
+                    }
+                  ],
+                  inlineActions: {},
+                  store: {
+                    filters: {},
+                    error: {},
+                    rows: [],
+                    row: {}
+                  }
+                }
+              },
+              store: {
+                massOperationsBarVisible: false,
+                massOperationsBar: true,
+                editForm: {},
+                filters: {},
+                error: {}
+              }
+            }
+          },
+          store: {
+            item: {},
+            loading: false
           }
         }
       },
@@ -167,51 +244,54 @@ module.exports = {
       ]
     }
   },
-  nom_categories: [
-    {
-      id: 'Кросовки'
-    },
-    {
-      id: 'Туфли'
-    },
-    {
-      id: 'Средства для ухода за обувью'
-    }
-  ],
-  nom_types: [
-    {
-      id: 'Мужская обувь',
-      props: [
-        {
-          id: 'Размер обуви RUS',
-          characteristic: true,
-          type: 'number',
-          min: 37.5,
-          max: 50
-        },
-        {
-          id: 'Материал подошвы',
-          type: 'enum'
-        }
-      ]
+  nom_categories:
+    [
+      {
+        id: 'Кросовки'
+      },
+      {
+        id: 'Туфли'
+      },
+      {
+        id: 'Средства для ухода за обувью'
+      }
+    ],
+  nom_types:
+    [
+      {
+        id: 'Мужская обувь',
+        props: [
+          {
+            id: 'Размер обуви RUS',
+            characteristic: true,
+            type: 'number',
+            min: 37.5,
+            max: 50
+          },
+          {
+            id: 'Материал подошвы',
+            type: 'enum'
+          }
+        ]
 
-    },
-    {
-      id: 'Средства для ухода за обувью'
-    }
-  ],
-  nam_props: [
-    {
-      id: 'Размер обуви RUS',
-      type: 'number'
-    },
-    {
-      id: 'Материал подошвы',
-      type: 'enum'
-    },
-    {
-      id: 'Цвет',
-      type: 'enum'
-    }
-  ]
+      },
+      {
+        id: 'Средства для ухода за обувью'
+      }
+    ],
+  nam_props:
+    [
+      {
+        id: 'Размер обуви RUS',
+        type: 'number'
+      },
+      {
+        id: 'Материал подошвы',
+        type: 'enum'
+      },
+      {
+        id: 'Цвет',
+        type: 'enum'
+      }
+    ]
 }

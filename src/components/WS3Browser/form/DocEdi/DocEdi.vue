@@ -39,8 +39,8 @@
 </style>
 
 <script>
-import BaseTemplateMixin from '../../mixin/baseForm'
-import TemplateMixin from '../../mixin/form'
+import BaseTemplateMixin from '../../mixinTemplate/baseForm'
+import TemplateMixin from '../../mixinTemplate/form'
 
 export default {
   name: 'DocEdi',
@@ -68,15 +68,15 @@ export default {
   computed: {
     data () {
       let data = {}
-      if (this.store.namespace && this.store.key) {
-        data = this.$store.getters[`${this.store.parentNamespace}/get`](this.store.parentKey, 'record')
+      if (this.store.namespace && this.store.uid) {
+        data = this.$store.getters[`${this.store.parentNamespace}/get`](this.store.parentUid, 'record')
       }
       return data
     }
   },
   methods: {
     onClose () {
-      this.$store.commit(`${this.store.parentNamespace}/hideEditForm`, { key: this.store.parentKey }, { root: true })
+      this.$store.commit(`${this.store.parentNamespace}/hideEditForm`, { key: this.store.parentUid }, { root: true })
     },
     onSave () {
     }

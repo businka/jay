@@ -28,7 +28,7 @@
 </style>
 
 <script>
-import DataSourceMixin from '../mixin/form'
+import DataSourceMixin from '../mixinTemplate/form'
 
 // import { defaultSource } from '../datasource/DataSource.vue'
 

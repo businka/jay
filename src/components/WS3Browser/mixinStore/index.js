@@ -1,7 +1,7 @@
 export async function processInDataSource (method, store, payload) {
   let key, data, mode, _method
   try {
-    key = payload.store.key
+    key = payload.store.uid
   } catch (e) {
     throw new Error(`store key '${method}' not found`)
   }

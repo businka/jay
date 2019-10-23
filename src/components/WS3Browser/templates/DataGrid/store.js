@@ -1,7 +1,7 @@
-import { processInDataSource } from '../../datasource/index'
-import { initForm, error } from '../../datasource/actions'
-import { initStoreKey } from '../../datasource/mutations'
-import { mode, get } from '../../datasource/getters'
+import { processInDataSource } from '../../mixinStore/index'
+import { initForm, error } from '../../mixinStore/actions'
+import { initStoreKey } from '../../mixinStore/mutations'
+import { mode } from '../../mixinStore/getters'
 
 export default {
   namespaced: true,
@@ -10,18 +10,18 @@ export default {
     formCheckProperty: 'columns'
   },
   getters: {
-    get: get,
+    // get: get,
     mode: mode
   },
   mutations: {
     initStoreKey: initStoreKey,
-    query (state, { key, rows }) {
-      state[key].rows = rows
+    query (state, { uid, rows }) {
+      state[uid].rows = rows
     },
     showForm (state, { key, data }) {
       state[key].currentForm = {
         template: state[key].defaultForm.template,
-        parentKey: state[key].defaultForm.name,
+        parentUid: state[key].defaultForm.name,
         parentNamespace: state[key].defaultForm.name,
         visible: true,
         form: data
@@ -34,9 +34,9 @@ export default {
     error: error,
 
     query: async (store, payload) => {
-      let key = payload.store.key
+      let uid = payload.store.uid
       let rows = await processInDataSource('query', store, payload)
-      store.commit('query', { key: key, rows })
+      store.commit('query', { uid, rows })
     }
 
   }

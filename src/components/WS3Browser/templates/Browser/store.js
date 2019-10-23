@@ -1,7 +1,7 @@
-import { processInDataSource } from '../../datasource/index'
-import { initForm, error } from '../../datasource/actions'
-import { initStoreKey } from '../../datasource/mutations'
-import { get, mode } from '../../datasource/getters'
+// import { processInDataSource } from '../../mixinStore/index'
+import { initForm, error } from '../../mixinStore/actions'
+import { initStoreKey } from '../../mixinStore/mutations'
+// import { get, mode } from '../../mixinStore/getters'
 
 export default {
   namespaced: true,
@@ -10,51 +10,33 @@ export default {
     formCheckProperty: 'dataSource'
   },
   getters: {
-    get: get,
-    mode: mode
+    // get: get,
+    // mode: mode
   },
   mutations: {
     initStoreKey: initStoreKey,
     massOperationsBarVisible (state, payload) {
-      state[payload.key].massOperationsBar.visible = payload.value
+      state[payload.uid].massOperationsBarVisible = payload.value
     },
-    query (state, { key, rows }) {
-      state[key].dataSource.rows = rows
+    query (state, { uid, rows }) {
+      state[uid].rows = rows
     },
-    error (state, { key, error }) {
-      state[key].error = error
+    error (state, { uid, error }) {
+      state[uid].error = error
     },
     showEditForm (state, payload) {
-      let key = payload.key
-      state[key].record = {
-        template: state[key].defaultFormTemplate,
-        objType: state[key].dataSource.objType,
-        objName: state[key].dataSource.objName,
-        objForm: state[key].defaultForm,
-        id: payload.params.id,
-        row: payload.params,
-        form: {},
-        visible: true
-      }
+      let uid = payload.uid
+      state[uid].editForm = payload.data
     },
     hideEditForm (state, payload) {
-      let key = payload.key
-      state[key].record = {
+      let uid = payload.uid
+      state[uid].editForm = {
         visible: false
       }
     }
   },
   actions: {
     initForm: initForm,
-    error: error,
-
-    query: async (store, payload) => {
-      let key = payload.key
-      let rows = await processInDataSource('query', store, payload)
-      store.commit('query', { key: key, rows })
-    },
-    rowActivate: (store, payload) => {
-      store.commit('showEditForm', payload)
-    }
+    error: error
   }
 }

@@ -37,6 +37,10 @@ export default {
       let uid = payload.store.uid
       let rows = await processInDataSource('query', store, payload)
       store.commit('query', { uid, rows })
+    },
+    update: async (store, payload) => {
+      await processInDataSource('update', store, payload)
+      store.dispatch('query', payload)
     }
 
   }

@@ -7,7 +7,7 @@ export function emitAction (action) {
   }
 }
 
-export function dispatchAction (action, data) {
-  let namespace = data.namespace || this.store.namespace
-  this.$store.dispatch(`${namespace}/${action}`, data, { root: true })
+export function dispatchAction (action) {
+  let namespace = action.namespace || this.store.namespace
+  this.$store.dispatch(`${namespace}/${action}`, action.data, { root: true })
 }

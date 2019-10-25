@@ -1,6 +1,7 @@
 import axios from 'axios/index'
 
 export default {
+  name: 'remote',
   initForm: async (store, data) => {
     let result
     try {

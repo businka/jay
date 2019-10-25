@@ -6,7 +6,7 @@
       dense
       hide-header
       :columns="params.columns"
-      :data="data.rows"
+      :data="rows"
     >
       <template v-slot:body="props">
         <!--@click.native="emitAction({ name: 'RowActivate', data: {row: props.row }} )"-->
@@ -14,7 +14,7 @@
           :props="props"
         >
           <q-popup-edit
-            :value="Object.props"
+            :value="jsonClone(props)"
             @save="updateRow"
           >
             <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
@@ -31,15 +31,14 @@
             </template>
           </q-popup-edit>
           <q-td
-            v-for="col in props.cols"
-            :key="col.name"
+            v-for="(col, i) in props.cols"
+            :key="i"
             :style="`text-align:${(col.align || 'left')}; vertical-align:${(col.vAlign || 'top')}`"
           >
             <component
               v-bind:is="col.template||'Default'"
               :col="col"
               :props="props"
-              :data="data.rows"
             ></component>
           </q-td>
         </q-tr>
@@ -49,12 +48,19 @@
 </template>
 <script>
 import BaseTemplateMixin from '../../mixinTemplate/baseForm'
+import { jsonClone } from '../../../../core/clone'
 
 export default {
   name: 'DataGrid',
+  computed: {
+    rows () {
+      return this.data.rows
+    }
+  },
   methods: {
+    jsonClone,
     updateRow (data, data2) {
-      console.log('22')
+      this.dispatchAction('update', { store: this.store, params: this.params, data })
     },
     async init () {
       this.initStore()

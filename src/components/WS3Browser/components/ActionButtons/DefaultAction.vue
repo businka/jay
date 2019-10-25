@@ -5,9 +5,12 @@
     :label="params.title?$t(`ActionButtons.${params.title}`):''"
     class="jay-space-right"
     color="accent"
+    @click.stop="params.action === 'emit' ? emitAction(params.data) : params.action === 'dispatch' ? dispatchAction(params.data) : null"
   ></q-btn>
 </template>
 <script>
+
+import { emitAction, dispatchAction } from '../../mixinTemplate/action'
 
 export default {
   // name: 'TabBrowser',
@@ -19,6 +22,8 @@ export default {
   //   key: '-'
   // }),
   methods: {
+    emitAction,
+    dispatchAction
     // ...mapActions('TabsBrowser', [
     //   'load',
     //   'setActiveTab'
@@ -45,10 +50,10 @@ export default {
 
 <style lang="scss">
   /*.jay-primary-border {*/
-    /*border: 1px solid rgb(217, 71, 0);*/
+  /*border: 1px solid rgb(217, 71, 0);*/
   /*}*/
   /*.jay-button {*/
-    /*font-size: 14px;*/
+  /*font-size: 14px;*/
   /*}*/
 
 </style>

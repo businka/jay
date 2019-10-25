@@ -1,5 +1,5 @@
 <template>
-  <q-toolbar class="jay-toolbar no-padding" v-if="data && params.items">
+  <q-toolbar class="jay-toolbar no-padding" v-if="data && params && params.items">
     <component
       v-for="item in params.items"
       :key="item.name"
@@ -15,6 +15,7 @@
 // import { createNamespacedHelpers } from 'vuex'
 // import { mapActions } from 'vuex'
 import BaseTemplateMixin from '../mixinTemplate/baseForm'
+import Space from './ActionButtons/Space'
 // import ChildTemplateMixin from '../mixinStore/formExt'
 
 export default {
@@ -61,7 +62,8 @@ export default {
   mixins: [BaseTemplateMixin],
   components: {
     'DefaultAction': () => import('./ActionButtons/DefaultAction'),
-    'Action': () => import('./ActionButtons/Action')
+    'Action': () => import('./ActionButtons/Action'),
+    Space
   }
 }
 

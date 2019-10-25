@@ -13,7 +13,7 @@ export default {
   getters: {
     // get: get,
     mode: mode,
-    getProps: getProps
+    getProp: getProps
   },
   mutations: {
     initStoreKey: initStoreKey,
@@ -24,7 +24,7 @@ export default {
     loading (state, { uid, value }) {
       state[uid].loading = value
     },
-    updateItemProps (state, { uid, path, value }) {
+    updateProp (state, { uid, path, value }) {
       let result = state[uid]
       let i
       for (i = 0; i < path.length - 1; i++) {
@@ -34,11 +34,12 @@ export default {
           throw new Error(`props ${name} not found in state[${uid}] `)
         }
       }
-      if (result.hasOwnProperty(path[i])) {
-        result[path[i]] = value
-      } else {
-        Vue.set(result, path[i], value)
-      }
+      // if (result.hasOwnProperty(path[i])) {
+      // result[path[i]] = value
+      Vue.set(result, path[i], value)
+      // } else {
+      //   Vue.set(result, path[i], value)
+      // }
     }
   },
   actions: {

@@ -134,6 +134,31 @@ module.exports = {
                 filters: {},
                 error: {}
               }
+            },
+            toolBar: {
+              template: 'ToolBar',
+              visible: true,
+              items: [
+                {
+                  template: 'Space'
+                },
+                {
+                  name: 'Save',
+                  template: 'DefaultAction',
+                  title: 'Save',
+                  action: 'emit',
+                  data: { name: 'Update' }
+                },
+                {
+                  name: 'Close',
+                  template: 'Action',
+                  title: 'Close',
+                  icon: 'close',
+                  action: 'emit',
+                  data: { name: 'Close' }
+
+                }
+              ]
             }
           },
           store: {

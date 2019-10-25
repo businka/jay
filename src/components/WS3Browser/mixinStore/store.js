@@ -1,6 +1,8 @@
 import axios from 'axios/index'
+import { jsonClone } from '../../../core/clone'
 
 export default {
+  name: 'store',
   query: async (store, payload) => {
     let result = []
     try {
@@ -19,6 +21,21 @@ export default {
     }
     result = await result
     return result
+  },
+  update: async (store, payload) => {
+    let result = []
+    try {
+      // let params = payload.filter || {}
+      let form = store.rootGetters['storeData']('form', payload.store.form)
+      let path = jsonClone(payload.store.mode.path)
+      path.push(payload.data.row.__index)
+      let value = jsonClone(payload.data.row)
+      delete value.__index
+      store.commit(`${form.template}/updateProp`, { uid: payload.store.form, path, value }, { root: true })
+    } catch (error) {
+      console.error(error)
+    }
+    await result
   },
   read: async (store, payload) => {
     let data

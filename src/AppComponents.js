@@ -16,3 +16,7 @@ Vue.component(
   'NomenclatureItem',
   () => import('./components/WS3Browser/form/NomenclatureItem/NomenclatureItem')
 )
+Vue.component(
+  'ToolBar',
+  () => import('./components/WS3Browser/components/ToolBar')
+)

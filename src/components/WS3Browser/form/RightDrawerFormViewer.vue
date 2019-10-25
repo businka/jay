@@ -4,32 +4,16 @@
     bordered
     :value="params.visible"
   >
-    <q-toolbar
-      flat
-    >
-      <!--<component-->
-      <!--v-bind:is="form.template"-->
-      <!--:params="form"-->
-      <!--:storeParams="{-->
-      <!--form: params.form,-->
-      <!--uid: params.form,-->
-      <!--mode: 'remote'-->
-      <!--}"-->
-      <!--&gt;</component>-->
-      <q-space></q-space>
-      <!--<q-btn-->
-      <!--flat-->
-      <!--dense-->
-      <!--@click="onSave"-->
-      <!--icon="save"-->
-      <!--&gt;</q-btn>-->
-      <q-btn
-        flat
-        dense
-        @click="onClose"
-        icon="close"
-      ></q-btn>
-    </q-toolbar>
+    <component
+      v-if="toolbar"
+      v-bind:is="toolbar.template"
+      :params="toolbar"
+      :modeParams="params.item"
+      :storeParams="{
+        form: params.form,
+        uid: params.form,
+      }"
+    ></component>
     <component
       v-if="form"
       v-bind:is="form.template"
@@ -65,6 +49,13 @@ export default {
     },
     form () {
       return this.$store.getters['storeData']('form', this.params.form)
+    },
+    toolbar () {
+      try {
+        return this.form.components.toolBar
+      } catch {
+        return null
+      }
     }
   },
   methods: {

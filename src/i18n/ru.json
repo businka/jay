@@ -41,6 +41,8 @@
   "ActionButtons": {
     "AddDocument": "+ Документ",
     "Import": "Импорт",
-    "Export": "Экспорт"
+    "Export": "Экспорт",
+    "Save": "Сохранить",
+    "Close": "Закрыть"
   }
 }

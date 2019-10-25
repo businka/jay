@@ -105,10 +105,10 @@ export default {
       if (!this.store.uid) {
         return null
       }
-      return this.$store.getters[`${this.store.namespace}/getProps`](this.store.uid, path, null)
+      return this.$store.getters[`${this.store.namespace}/getProp`](this.store.uid, path, null)
     },
     setItemProps (path, value) {
-      this.$store.commit(`${this.store.namespace}/updateItemProps`, {
+      this.$store.commit(`${this.store.namespace}/updateProp`, {
         uid: this.store.uid,
         path,
         value

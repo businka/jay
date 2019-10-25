@@ -1,9 +1,9 @@
 <template>
-  <div class="row" v-if="row">
+  <div class="row" v-if="value">
     <div class="col">
       <q-input
-        :label="row.id"
-        v-model="row.value"
+        :label="value.row.id"
+        v-model="value.row.value"
         dense
         autofocus
       >
@@ -26,7 +26,7 @@ export default {
   props: ['initialValue', 'value', 'emitValue', 'validate', 'set', 'cancel'],
   data: function () {
     return {
-      row: Object.assign({}, this.value.row)
+      // row: Object.assign({}, this.value.row)
     }
   }
   // data: () => ({

@@ -4,7 +4,13 @@ export default {
       type: String,
       default: ''
     },
-    params: Object,
+    // params: { type: Object, default: () => {} },
+    params: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    },
     modeParams: Object,
     storeParams: Object
   },
